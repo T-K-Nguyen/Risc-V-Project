@@ -11,10 +11,6 @@ module alu (
     output reg  [7:0]  out,       // 8-bit output
     output wire        is_zero    // Asynchronous zero flag
 );
-
-    // Asynchronous zero detection
-    assign is_zero = (out == 8'b0);
-
     // Combinational ALU operations
     always @(*) begin
         case (opcode)
@@ -28,6 +24,7 @@ module alu (
             `OPCODE_JMP:  out = inA;                // Jump: pass inA
             default:      out = 8'b0;               // Default: 0
         endcase
+	is_zero = (out == 8'b0);
     end
 
 endmodule
