@@ -13,7 +13,7 @@ module alu (
 );
 
     // Asynchronous zero detection
-    assign is_zero = (inA == 8'b0);
+    assign is_zero = (out == 8'b0);
 
     // Combinational ALU operations
     always @(*) begin
