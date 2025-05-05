@@ -3,23 +3,26 @@
 `timescale 1ns/1ps
 
 module memory (
-    input wire clk,
-    input wire [4:0] addr,
-    input wire [7:0] data_in,
-    output reg [7:0] data_out,
-    input wire rd,
-    input wire wr
+    input  wire        clk,
+    input  wire [4:0]  addr,
+    input  wire [7:0]  data_in,
+    output reg  [7:0]  data_out,
+    input  wire        rd,
+    input  wire        wr
 );
     reg [7:0] mem [0:31];
 
-    initial begin
-        $readmemh("test2.mem", mem);  // Load memory from file
+    // Combinational read
+    always @(*) begin
+        if (rd)
+            data_out = mem[addr];
+        else
+            data_out = 8'b0;
     end
 
+    // Synchronous write
     always @(posedge clk) begin
         if (wr)
             mem[addr] <= data_in;
-        if (rd)
-            data_out <= mem[addr];  // Synchronous read
     end
 endmodule

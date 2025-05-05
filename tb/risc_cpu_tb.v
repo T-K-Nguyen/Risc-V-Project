@@ -53,6 +53,7 @@ module tb_risc_cpu;
             uut.data_e, uut.sel, uut.addr, uut.data_in_out, uut.data_reg,
             data_out, uut.mem0.mem[7], uut.ctrl0.ld_ac, uut.alu0.out);   
     end
+    
     // Dump waveform for Cadence
     initial begin
         $dumpfile("sim/waveform.vcd");

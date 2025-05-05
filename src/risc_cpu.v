@@ -25,21 +25,31 @@ module risc_cpu (
     wire [7:0] reg_out;           // Accumulator output
     wire [7:0] mem_out;           // Memory output
     wire [2:0] opcode;            // 3-bit opcode
-    wire sel, rd, ld_ir, halt, inc_pc, ld_ac, ld_pc, wr, data_e, zero;
+    wire sel, rd, ld_ir, halt, ld_ac, ld_pc, wr, data_e, zero;
 
     // Add data register to latch memory output
     reg [7:0] data_reg;
     wire [7:0] alu_inB;           // ALU input B (from data_reg)
 
     // Module instantiations
+    wire [1:0] inc_pc;  
+
     program_counter pc0 (
         .clk(clk),
         .rst(rst),
         .load(ld_pc),
-        .inc_pc(inc_pc),
-        .load_val(mem_out[4:0]),
+        .inc_pc(inc_pc),  // Now 2 bits
+        .load_val(ir[4:0]),
         .pc(pc)
     );
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            ir <= 8'b10100000;  // Non-HLT opcode
+        else if (ld_ir) begin
+            ir <= mem_out;
+            $display("IR updated to %h (ir[4:0]=%b) at time %t", mem_out, mem_out[4:0], $time);
+        end
+    end
 
     address_mux mux0 (
         .sel(sel),
@@ -55,6 +65,7 @@ module risc_cpu (
         .out(alu_out),
         .is_zero(zero)
     );
+    always @(zero) $display("Zero signal updated to %b at time %t", zero, $time);
 
     controller ctrl0 (
         .clk(clk),
@@ -80,6 +91,12 @@ module risc_cpu (
         .in(alu_out),
         .out(reg_out)
     );
+    //debug accumulator
+    always @(posedge clk) begin
+        if (ld_ac)
+            $display("Accumulator updated to %h at time %t", alu_out, $time);
+    end
+
 
     memory mem0 (
         .clk(clk),
@@ -115,9 +132,15 @@ module risc_cpu (
             prev_state <= 0;
         end else begin
             prev_state <= state;
-            if (prev_state == `STATE_OP_FETCH)
-                data_reg <= mem_out;  // Latch after fetch
+            if (state == `STATE_OP_FETCH)  // Capture during STATE_OP_FETCH
+                data_reg <= mem_out;
         end
+    end
+
+    //debug data reg
+    always @(posedge clk) begin
+        if (state == `STATE_OP_FETCH)
+            $display("STATE_OP_FETCH: mem_out=%h, Data_reg=%h at time %t", mem_out, data_reg, $time);
     end
 
     // Assign ALU input B from data_reg

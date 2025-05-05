@@ -14,7 +14,7 @@ module controller (
     output reg        rd,
     output reg        ld_ir,
     output reg        halt,
-    output reg        inc_pc,
+    output reg [1:0]  inc_pc,
     output reg        ld_ac,
     output reg        ld_pc,
     output reg        wr,
@@ -22,13 +22,14 @@ module controller (
     output reg [2:0] state
 );
 
-    
+    reg skip_next;
 
     // State transition and sequential outputs
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             state <= `STATE_INST_ADDR;
             ld_ac <= 0;
+            skip_next <= 0;  // Initialize skip_next
         end else begin
             if (halt && state == `STATE_NEXT)
                 state <= state;
@@ -36,17 +37,21 @@ module controller (
                 state <= (state == `STATE_STORE) ? `STATE_NEXT :
                         (state == `STATE_NEXT) ? `STATE_INST_ADDR : state + 1;
 
-            // Sequential control for ld_ac to ensure it holds through the clock edge
+            // Latch skip_next in STATE_ALU_OP
             case (state)
                 `STATE_ALU_OP: begin
                     ld_ac <= (opcode == `OPCODE_ADD || opcode == `OPCODE_AND ||
-                             opcode == `OPCODE_XOR || opcode == `OPCODE_LDA);
+                            opcode == `OPCODE_XOR || opcode == `OPCODE_LDA);
+                    skip_next <= (opcode == `OPCODE_SKZ && zero);  // Set if SKZ and zero
+                    if (opcode == `OPCODE_SKZ)
+                    $display("SKZ: zero=%b, skip_next=%b at time %t", zero, (opcode == `OPCODE_SKZ && zero), $time);
                 end
                 `STATE_STORE: begin
-                    ld_ac <= 0;  // Clear ld_ac after ALU operation
+                    ld_ac <= 0;
                 end
                 default: begin
                     ld_ac <= 0;
+                    skip_next <= 0;  // Clear skip_next in other states
                 end
             endcase
         end
@@ -80,7 +85,6 @@ module controller (
                 rd = 1;
             end
             `STATE_ALU_OP: begin
-                // Remove rd to avoid re-reading memory; data_reg should be used
                 ld_pc = (opcode == `OPCODE_JMP);
             end
             `STATE_STORE: begin
@@ -89,7 +93,12 @@ module controller (
                 sel = 0;
             end
             `STATE_NEXT: begin
-                inc_pc = !halt;
+                if (skip_next) begin
+                    inc_pc = 2;  // Increment PC by 2 to skip next instruction
+                    $display("SKZ: Skipping next instruction, inc_pc set to 2 at time %t", $time);
+                end else begin
+                    inc_pc = !halt ? 1 : 0;  // Normal increment by 1
+                end
             end
         endcase
     end

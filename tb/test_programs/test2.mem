@@ -1,12 +1,12 @@
-10100101  // Address 0: LDA 5 (Load 255 from address 5)
-10000110  // Address 1: XOR 6 (XOR with 255 from address 6)
-00100000  // Address 2: SKZ (Skip if Accumulator is zero)
-11101000  // Address 3: JMP 8 (Jump to address 8)
-01100111  // Address 4: AND 7 (AND with 170 from address 7)
-11111111  // Address 5: Data = 255
+10100101  // Address 0: LDA 5
+10000110  // Address 1: XOR 6
+00100000  // Address 2: SKZ
+11101000  // Address 3: JMP 8
+01100111  // Address 4: AND 7
+00000000  // Address 5: HLT (replaces 11111111)
 11111111  // Address 6: Data = 255
 10101010  // Address 7: Data = 170
-00000000  // Address 8: HLT
+00000000  // Address 8: HLT (unchanged)
 00000000  // Address 9: Unused
 00000000  // Address 10: Unused
 00000000  // Address 11: Unused
