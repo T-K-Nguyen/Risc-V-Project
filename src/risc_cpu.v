@@ -44,14 +44,14 @@ module risc_cpu (
     address_mux mux0 (
         .sel(sel),
         .inst_addr(pc),
-        .op_addr(ir[4:0]),   // Corrected to use instruction bits
+        .op_addr(ir[4:0]),
         .addr(addr)
     );
 
     alu alu0 (
         .opcode(opcode),
         .inA(reg_out),
-        .inB(alu_inB),       // Use latched data
+        .inB(alu_inB),
         .out(alu_out),
         .is_zero(zero)
     );
@@ -69,7 +69,8 @@ module risc_cpu (
         .ld_ac(ld_ac),
         .ld_pc(ld_pc),
         .wr(wr),
-        .data_e(data_e)
+        .data_e(data_e),
+        .state(state)  // Add state output
     );
 
     register reg0 (
@@ -83,13 +84,13 @@ module risc_cpu (
     memory mem0 (
         .clk(clk),
         .addr(addr),
-        .data_in(data_in),    // Connect to internal data_in
+        .data_in(data_in),
         .data_out(mem_out),
         .rd(rd),
         .wr(wr)
     );
 
-    // Instruction register (simplified)
+    // Instruction register
     reg [7:0] ir;
     always @(posedge clk or posedge rst) begin
         if (rst)
@@ -98,23 +99,31 @@ module risc_cpu (
             ir <= mem_out;
     end
 
-    // Extract opcode from instruction
-    assign opcode = ir[7:5];  // 3-bit opcode (bits 7:5)
-    assign data_out = reg_out; // Output Accumulator
+    // Extract opcode
+    assign opcode = ir[7:5];
+    assign data_out = reg_out;
 
-    // Assign data_in based on data_e
+    // Data input for memory
     wire [7:0] data_in = data_e ? reg_out : 8'b0;
-    assign data_in_out = data_in; // Expose data_in as output
+    assign data_in_out = data_in;
 
-    // Latch memory data in STATE_OP_FETCH
+    // Latch memory data one cycle after STATE_OP_FETCH
+    reg [2:0] prev_state;
     always @(posedge clk or posedge rst) begin
-        if (rst)
+        if (rst) begin
             data_reg <= 8'b0;
-        else if (ctrl0.state == `STATE_OP_FETCH)  // Assuming state is accessible
-            data_reg <= mem_out;
+            prev_state <= 0;
+        end else begin
+            prev_state <= state;
+            if (prev_state == `STATE_OP_FETCH)
+                data_reg <= mem_out;  // Latch after fetch
+        end
     end
 
     // Assign ALU input B from data_reg
     assign alu_inB = data_reg;
+
+    // Local state wire (if not directly accessible)
+    wire [2:0] state;
 
 endmodule

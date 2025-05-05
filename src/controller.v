@@ -18,18 +18,18 @@ module controller (
     output reg        ld_ac,
     output reg        ld_pc,
     output reg        wr,
-    output reg        data_e
+    output reg        data_e,
+    output reg [2:0] state
 );
 
-    reg [2:0] state;
+    
 
     // State transition and sequential outputs
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             state <= `STATE_INST_ADDR;
-            ld_ac <= 0;  // Reset ld_ac
+            ld_ac <= 0;
         end else begin
-            // State transitions
             if (halt && state == `STATE_NEXT)
                 state <= state;
             else
