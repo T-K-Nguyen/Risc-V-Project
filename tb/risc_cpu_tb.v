@@ -33,9 +33,16 @@ module tb_risc_cpu;
         rst = 0;
 
         // Load memory with test1.mem or test2.mem
-        // Comment/uncomment to switch between test programs
         //$readmemb("tb/test_programs/test1.mem", uut.mem0.mem);  // For test1.mem
-        $readmemb("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem
+        $readmemh("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem use hex format
+        
+        // Debug: Print memory contents to verify initialization
+        // #10;
+        // integer i;
+        // for (i = 0; i < 10; i = i + 1) begin
+        //     $display("Mem[%d] = %h at time %t", i, uut.mem0.mem[i], $time);
+        // end
+
 
         // Run simulation for a fixed time
         #1000;
@@ -46,7 +53,7 @@ module tb_risc_cpu;
         $finish;
     end
 
-    //debug purposes
+    //debug monitor
     initial begin
         $monitor("Time=%0t rst=%b clk=%b PC=%d State=%d IR=%h Opcode=%b Wr=%b Data_e=%b Sel=%b Addr=%h Data_in=%h Data_reg=%h Accumulator=%h Mem[7]=%h Ld_ac=%b Alu_out=%h",
             $time, rst, clk, uut.pc, uut.ctrl0.state, uut.ir, uut.opcode, uut.wr,

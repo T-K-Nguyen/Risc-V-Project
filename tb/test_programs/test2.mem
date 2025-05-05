@@ -1,32 +1,10 @@
-10100101  // Address 0: LDA 5
-10000110  // Address 1: XOR 6
-00100000  // Address 2: SKZ
-11101000  // Address 3: JMP 8
-01100111  // Address 4: AND 7
-00000000  // Address 5: HLT (replaces 11111111)
-11111111  // Address 6: Data = 255
-10101010  // Address 7: Data = 170
-00000000  // Address 8: HLT (unchanged)
-00000000  // Address 9: Unused
-00000000  // Address 10: Unused
-00000000  // Address 11: Unused
-00000000  // Address 12: Unused
-00000000  // Address 13: Unused
-00000000  // Address 14: Unused
-00000000  // Address 15: Unused
-00000000  // Address 16: Unused
-00000000  // Address 17: Unused
-00000000  // Address 18: Unused
-00000000  // Address 19: Unused
-00000000  // Address 20: Unused
-00000000  // Address 21: Unused
-00000000  // Address 22: Unused
-00000000  // Address 23: Unused
-00000000  // Address 24: Unused
-00000000  // Address 25: Unused
-00000000  // Address 26: Unused
-00000000  // Address 27: Unused
-00000000  // Address 28: Unused
-00000000  // Address 29: Unused
-00000000  // Address 30: Unused
-00000000  // Address 31: Unused
+a5  // Address 0: LDA 5
+86  // Address 1: XOR 6
+20  // Address 2: SKZ
+e8  // Address 3: JMP 8
+67  // Address 4: AND 7
+ff  // Address 5: Data = 255
+ff  // Address 6: Data = 255
+aa  // Address 7: Data = 170
+00  // Address 8: HLT
+00  // Address 9: HLT
