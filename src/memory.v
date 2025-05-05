@@ -13,7 +13,7 @@ module memory (
     reg [7:0] mem [0:31];
 
     initial begin
-        $readmemh("test1.mem", mem);  // Load memory from file
+        $readmemh("test2.mem", mem);  // Load memory from file
     end
 
     always @(posedge clk) begin
