@@ -1,7 +1,7 @@
 // File: src/alu.v
 // Description: ALU for RISC CPU with 8 operations
 // Includes defines.v for opcode constants
-
+`timescale 1ns/1ps
 `include "src/defines.v"
 
 module alu (

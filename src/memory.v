@@ -1,5 +1,6 @@
 // File: src/memory.v
 // Description: 32x8-bit Memory for RISC CPU
+`timescale 1ns/1ps
 
 module memory (
     input  wire        clk,       // Clock input (rising edge)
