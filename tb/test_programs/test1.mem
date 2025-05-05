@@ -1,0 +1,32 @@
+10100101  // Address 0: LDA 5 (Load 16 from address 5)
+01000110  // Address 1: ADD 6 (Add 32 from address 6)
+11000111  // Address 2: STO 7 (Store result to address 7)
+00000000  // Address 3: HLT
+00000000  // Address 4: Unused
+00010000  // Address 5: Data = 16
+00100000  // Address 6: Data = 32
+00000000  // Address 7: Placeholder for STO (should become 48)
+00000000  // Address 8: Unused
+00000000  // Address 9: Unused
+00000000  // Address 10: Unused
+00000000  // Address 11: Unused
+00000000  // Address 12: Unused
+00000000  // Address 13: Unused
+00000000  // Address 14: Unused
+00000000  // Address 15: Unused
+00000000  // Address 16: Unused
+00000000  // Address 17: Unused
+00000000  // Address 18: Unused
+00000000  // Address 19: Unused
+00000000  // Address 20: Unused
+00000000  // Address 21: Unused
+00000000  // Address 22: Unused
+00000000  // Address 23: Unused
+00000000  // Address 24: Unused
+00000000  // Address 25: Unused
+00000000  // Address 26: Unused
+00000000  // Address 27: Unused
+00000000  // Address 28: Unused
+00000000  // Address 29: Unused
+00000000  // Address 30: Unused
+00000000  // Address 31: Unused

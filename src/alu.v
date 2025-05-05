@@ -1,7 +1,7 @@
 // File: src/alu.v
 // Description: ALU for RISC CPU with 8 operations
 // Includes defines.v for opcode constants
-
+`timescale 1ns/1ps
 `include "src/defines.v"
 
 module alu (
@@ -9,7 +9,7 @@ module alu (
     input  wire [7:0]  inA,       // 8-bit input A (Accumulator)
     input  wire [7:0]  inB,       // 8-bit input B (Memory)
     output reg  [7:0]  out,       // 8-bit output
-    output wire        is_zero    // Asynchronous zero flag
+    output wire   is_zero    // Asynchronous zero flag
 );
     // Combinational ALU operations
     always @(*) begin
@@ -24,7 +24,7 @@ module alu (
             `OPCODE_JMP:  out = inA;                // Jump: pass inA
             default:      out = 8'b0;               // Default: 0
         endcase
-	is_zero = (out == 8'b0);
     end
 
+    assign is_zero = (out == 8'b0);
 endmodule

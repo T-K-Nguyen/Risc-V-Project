@@ -1,4 +1,10 @@
-module risc_cpu_tb;
+
+// Description: Testbench for RISC CPU module
+`timescale 1ns/1ps
+`include "src/risc_cpu.v"
+
+module tb_risc_cpu;
+
     // Inputs
     reg clk;
     reg rst;
@@ -6,33 +12,51 @@ module risc_cpu_tb;
     // Outputs
     wire [7:0] data_out;
 
-    // Instantiate the RISC CPU module
+    // Instantiate RISC CPU
     risc_cpu uut (
         .clk(clk),
         .rst(rst),
         .data_out(data_out)
     );
 
-    // Generate clock signal
-    always #5 clk = ~clk;  // Toggle clk every 5 time units
-
-    // Initialize the signals
+    // Clock generation
     initial begin
-        // Initialize Inputs
         clk = 0;
+        forever #5 clk = ~clk;  // 10ns period (100 MHz)
+    end
+
+    // Test stimulus
+    initial begin
+        // Reset
+        rst = 1;
+        #20;
         rst = 0;
 
-        // Monitor the outputs
-        $monitor("Time: %0t | clk = %b, rst = %b, data_out = %h", $time, clk, rst, data_out);
+        // Load memory with test1.mem or test2.mem
+        // Comment/uncomment to switch between test programs
+        $readmemb("tb/test_programs/test1.mem", uut.mem0.mem);  // For test1.mem
+        // $readmemb("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem
 
-        // Apply reset
-        rst = 1;   // Assert reset
-        #10;       // Wait for 10 time units
-        rst = 0;   // Deassert reset
+        // Run simulation for a fixed time
+        #1000;
 
-        #10;
-        
-        #100; 
+        // Check results
+        $display("Final Accumulator value: %h", data_out);
+        $display("Memory at address 7: %h", uut.mem0.mem[7]);  // For test1.mem
         $finish;
     end
+
+    //debug purposes
+    initial begin
+        $monitor("Time=%0t rst=%b clk=%b PC=%d State=%d IR=%h Opcode=%b Wr=%b Data_e=%b Sel=%b Addr=%h Data_in=%h Data_reg=%h Accumulator=%h Mem[7]=%h Ld_ac=%b Alu_out=%h",
+            $time, rst, clk, uut.pc, uut.ctrl0.state, uut.ir, uut.opcode, uut.wr,
+            uut.data_e, uut.sel, uut.addr, uut.data_in_out, uut.data_reg,
+            data_out, uut.mem0.mem[7], uut.ctrl0.ld_ac, uut.alu0.out);   
+    end
+    // Dump waveform for Cadence
+    initial begin
+        $dumpfile("sim/waveform.vcd");
+        $dumpvars(0, tb_risc_cpu);
+    end
+
 endmodule

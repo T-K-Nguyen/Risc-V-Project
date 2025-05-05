@@ -1,5 +1,6 @@
 // File: src/address_mux.v
 // Description: 5-bit Address Mux for RISC CPU
+`timescale 1ns/1ps
 
 module address_mux #(
     parameter WIDTH = 5
