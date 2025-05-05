@@ -34,8 +34,8 @@ module tb_risc_cpu;
 
         // Load memory with test1.mem or test2.mem
         // Comment/uncomment to switch between test programs
-        $readmemb("tb/test_programs/test1.mem", uut.mem0.mem);  // For test1.mem
-        // $readmemb("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem
+        //$readmemb("tb/test_programs/test1.mem", uut.mem0.mem);  // For test1.mem
+        $readmemb("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem
 
         // Run simulation for a fixed time
         #1000;
