@@ -27,12 +27,20 @@ module risc_cpu (
     wire [2:0] opcode;            // 3-bit opcode
     wire sel, rd, ld_ir, halt, ld_ac, ld_pc, wr, data_e, zero;
 
+    wire [7:0] data_in;
     // Add data register to latch memory output
     reg [7:0] data_reg;
     wire [7:0] alu_inB;           // ALU input B (from data_reg)
 
     // Module instantiations
     wire [1:0] inc_pc;  
+
+    // Local state wire (if not directly accessible)
+    wire [2:0] state;
+
+    // Instruction register
+    reg [7:0] ir;
+
 
     program_counter pc0 (
         .clk(clk),
@@ -104,24 +112,24 @@ module risc_cpu (
         .data_in(data_in),
         .data_out(mem_out),
         .rd(rd),
-        .wr(wr)
+        .wr(wr),
+        .rst(rst)
     );
 
-    // Instruction register
-    reg [7:0] ir;
-    always @(posedge clk or posedge rst) begin
-        if (rst)
-            ir <= 8'b10100000;  // Non-HLT opcode
-        else if (ld_ir)
-            ir <= mem_out;
-    end
+    
+    // always @(posedge clk or posedge rst) begin
+    //     if (rst)
+    //         ir <= 8'b10100000;  // Non-HLT opcode
+    //     else if (ld_ir)
+    //         ir <= mem_out;
+    // end
 
     // Extract opcode
     assign opcode = ir[7:5];
     assign data_out = reg_out;
 
     // Data input for memory
-    wire [7:0] data_in = data_e ? reg_out : 8'b0;
+    assign data_in = data_e ? reg_out : 8'b0;
     assign data_in_out = data_in;
 
     // Latch memory data one cycle after STATE_OP_FETCH
@@ -146,7 +154,6 @@ module risc_cpu (
     // Assign ALU input B from data_reg
     assign alu_inB = data_reg;
 
-    // Local state wire (if not directly accessible)
-    wire [2:0] state;
+    
 
 endmodule

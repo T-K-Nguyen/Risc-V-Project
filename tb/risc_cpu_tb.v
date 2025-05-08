@@ -5,6 +5,7 @@
 
 module tb_risc_cpu;
 
+    integer i;
     // Inputs
     reg clk;
     reg rst;
@@ -29,19 +30,18 @@ module tb_risc_cpu;
     initial begin
         // Reset
         rst = 1;
-        #20;
+        #200;
         rst = 0;
 
         // Load memory with test1.mem or test2.mem
         //$readmemb("tb/test_programs/test1.mem", uut.mem0.mem);  // For test1.mem
-        $readmemh("tb/test_programs/test2.mem", uut.mem0.mem);  // For test2.mem use hex format
+        $readmemh("tb/test_programs/test3.mem", uut.mem0.mem);  // For test2.mem use hex format
         
         // Debug: Print memory contents to verify initialization
-        // #10;
-        // integer i;
-        // for (i = 0; i < 10; i = i + 1) begin
-        //     $display("Mem[%d] = %h at time %t", i, uut.mem0.mem[i], $time);
-        // end
+        #10;
+        for (i = 0; i < 10; i = i+1) begin
+            $display("Mem[%d] = %h at time %t", i, uut.mem0.mem[i], $time);
+        end
 
 
         // Run simulation for a fixed time

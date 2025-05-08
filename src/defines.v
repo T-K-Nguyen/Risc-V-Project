@@ -23,5 +23,5 @@
 `define STATE_OP_FETCH   3'd4  // Operand fetch
 `define STATE_ALU_OP     3'd5  // ALU operation
 `define STATE_STORE      3'd6  // Store
-`define STATE_NEXT       3'd7
+`define STATE_NEXT       3'd7   
 `endif

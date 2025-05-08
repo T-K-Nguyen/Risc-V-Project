@@ -1,0 +1,32 @@
+fe  // 00: JMP TST_JMP
+00  // 01: HLT
+00  // 02: HLT
+ba  // 03: LDA DATA_1
+20  // 04: SKZ
+00  // 05: HLT
+bb  // 06: LDA DATA_2
+20  // 07: SKZ
+ea  // 08: JMP SKZ_OK
+00  // 09: HLT
+dc  // 0A: STO TEMP
+ba  // 0B: LDA DATA_1
+dc  // 0C: STO TEMP
+bc  // 0D: LDA TEMP
+20  // 0E: SKZ
+00  // 0F: HLT
+9b  // 10: XOR DATA_2
+20  // 11: SKZ
+e8  // 12: JMP XOR_OK
+00  // 13: HLT
+9b  // 14: XOR DATA_2
+20  // 15: SKZ
+00  // 16: HLT
+00  // 17: HLT (END)
+e0  // 18: JMP BEGIN
+00  // 1A: DATA_1
+ff  // 1B: DATA_2
+aa  // 1C: TEMP
+00  // 20: Unused
+e3  // 1E: JMP JMP_OK
+00  // 1F: HLT
+00  // 20: Unused (to 31)

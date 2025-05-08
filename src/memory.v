@@ -4,6 +4,7 @@
 
 module memory (
     input  wire        clk,
+    input  wire        rst,
     input  wire [4:0]  addr,
     input  wire [7:0]  data_in,
     output reg  [7:0]  data_out,
@@ -11,6 +12,13 @@ module memory (
     input  wire        wr
 );
     reg [7:0] mem [0:31];
+
+    always @(posedge clk) begin
+        if (rst) begin
+            $readmemh("tb/test_programs/test3.mem", mem);
+        end
+    end
+
 
     // Combinational read
     always @(*) begin
