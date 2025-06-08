@@ -1,5 +1,3 @@
-<img width="650" alt="image" src="https://github.com/user-attachments/assets/3197d6cc-9f30-4da8-9ba7-c76a8f032537" /># RISC CPU Design Project
-
 ## Overview
 This project involves the design and simulation of a simple RISC (Reduced Instruction Set Computer) CPU, implemented as part of the VLSI Design course (CO3098) at Ho Chi Minh City University of Technology. The CPU is designed with a minimal instruction set and operates synchronously with a clock signal, featuring a 3-bit opcode and 5-bit operands, supporting a 32x8-bit memory for both program and data storage. The design follows the Von Neumann architecture and is implemented using Verilog, with synthesis and simulation performed using industry-standard tools.
 
