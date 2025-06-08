@@ -122,6 +122,8 @@ The design was thoroughly tested using testbenches for each module (ALU, Address
   <br/>
   <i>Figure: Genus Synthesis result</i>
 </p>
+
+
 - **LEC (Logic Equivalence Checking)**: All 322 compared points (16 Primary Outputs, 306 D Flip-Flops) were equivalent, confirming the synthesized netlist matches the original design.
 <p align="center">
   <img src="Screenshots/netlist.png" width="700"/>
