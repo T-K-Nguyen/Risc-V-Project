@@ -1,13 +1,12 @@
-# RISC CPU Design Project
+<img width="650" alt="image" src="https://github.com/user-attachments/assets/3197d6cc-9f30-4da8-9ba7-c76a8f032537" /># RISC CPU Design Project
 
 ## Overview
 This project involves the design and simulation of a simple RISC (Reduced Instruction Set Computer) CPU, implemented as part of the VLSI Design course (CO3098) at Ho Chi Minh City University of Technology. The CPU is designed with a minimal instruction set and operates synchronously with a clock signal, featuring a 3-bit opcode and 5-bit operands, supporting a 32x8-bit memory for both program and data storage. The design follows the Von Neumann architecture and is implemented using Verilog, with synthesis and simulation performed using industry-standard tools.
 
 The project was carried out by:
-- **Nguyen Kim Thuan** (Student ID: 2213357)
-- **Phan Huy Trung** (Student ID: 2213709)
+- **Nguyen Kim Thuan** 
+- **Phan Huy Trung** 
 
-**Instructor**: Nguyen Thanh Loc  
 **Course**: CO3098 - VLSI Design  
 **Semester**: HK242  
 **Date**: May 2025
@@ -120,7 +119,17 @@ The design was thoroughly tested using testbenches for each module (ALU, Address
 - **Register**: Properly latches memory data on clock edges and resets to zero when required.
 - **Memory**: Supports read/write operations with accurate address handling.
 - **Synthesis**: The Genus synthesis results show no timing violations, with a critical path slack of 872.1 in the basic case and positive slacks in the low-power case, indicating stable timing performance.
+<p align="center">
+  <img src="Screenshots/genus.png" width="700"/>
+  <br/>
+  <i>Figure: Genus Synthesis result</i>
+</p>
 - **LEC (Logic Equivalence Checking)**: All 322 compared points (16 Primary Outputs, 306 D Flip-Flops) were equivalent, confirming the synthesized netlist matches the original design.
+<p align="center">
+  <img src="Screenshots/netlist.png" width="700"/>
+  <br/>
+  <i>Figure: Netlist Output</i>
+</p>
 
 ## Challenges and Solutions
 - **Synthesis Issues**: Initial synthesis runs in MobaXterm resulted in "No paths" errors. These were resolved by adjusting the synthesis scripts and constraints to ensure proper timing analysis.
